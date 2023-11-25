@@ -13,18 +13,34 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final List<String> buttons =[
-    'C' , 'Del', '%', '/',
-    '9' , '8', '7', 'x',
-    '6' , '5', '4', '-',
-    '3' , '2', '1', '+',
-    '0' , '.', 'ANS', '=',
+  var userque = '';
+  var userans = '';
+
+  final List<String> buttons = [
+    'C',
+    'Del',
+    '%',
+    '/',
+    '9',
+    '8',
+    '7',
+    'x',
+    '6',
+    '5',
+    '4',
+    '-',
+    '3',
+    '2',
+    '1',
+    '+',
+    '0',
+    '.',
+    'ANS',
+    '=',
   ];
 
-  bool isOperator (String x)
-  {
-    if (x =='%'|| x=='/' ||x=='x' ||x=='-' ||x=='+'|| x=='=')
-    {
+  bool isOperator(String x) {
+    if (x == '%' || x == '/' || x == 'x' || x == '-' || x == '+' || x == '=') {
       return true;
     }
     return false;
@@ -43,50 +59,82 @@ class _MyAppState extends State<MyApp> {
         ),
         body: Column(
           children: [
-            Expanded(child: Container()),
+            Expanded(
+                child: Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(20),
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      userque,
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(20),
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      userans,
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ),
+                ],
+              ),
+            )),
             Expanded(
                 flex: 2,
                 child: Container(
-
                   child: GridView.builder(
                     itemCount: buttons.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4),
-                    itemBuilder:(BuildContext context,int index){
-                      if(index==0){
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 4),
+                    itemBuilder: (BuildContext context, int index) {
+                      if (index == 0) {
                         return MyButtons(
+                          buttonTapped: (){
+                            setState(() {
+                              userque='';
+                            });
+                          },
                           buttonText: buttons[index],
-                          color:Colors.green,
-                          textColor:Colors.white,
+                          color: Colors.green,
+                          textColor: Colors.white,
                         );
-                      }
-                      else if(index==1){
+                      } else if (index == 1) {
                         return MyButtons(
+                          buttonTapped: (){
+                            setState(() {
+                              userque=userque.substring(0,userque.length-1);
+                            });
+                          },
                           buttonText: buttons[index],
-                          color:Colors.red,
-                          textColor:Colors.white,
+                          color: Colors.red,
+                          textColor: Colors.white,
                         );
-                      }
-                      else{
+                      } else {
                         return MyButtons(
+                          buttonTapped: (){
+                            setState(() {
+                              userque+=buttons[index];
+                            });
+                          },
                           buttonText: buttons[index],
-                          color:isOperator(buttons[index])? Colors.deepPurple:Colors.deepPurple[50],
-                          textColor:isOperator(buttons[index])? Colors.white:Colors.deepPurple ,
-
+                          color: isOperator(buttons[index])
+                              ? Colors.deepPurple
+                              : Colors.deepPurple[50],
+                          textColor: isOperator(buttons[index])
+                              ? Colors.white
+                              : Colors.deepPurple,
                         );
                       }
                     },
-
                   ),
-
-                )
-            )
+                ))
           ],
         ),
       ),
-
-
     );
-
   }
-
 }
